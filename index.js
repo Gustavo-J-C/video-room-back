@@ -11,7 +11,7 @@ app.use(cors());
 
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "https://video-room-front.vercel.app",
         methods: ["GET", "POST"]
     }
 });
@@ -46,7 +46,7 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("User Disconnects", socket.id)
     })
-})
+}) 
 
 
 server.listen(PORT, () => {
