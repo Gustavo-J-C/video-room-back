@@ -11,7 +11,7 @@ app.use(cors());
 
 const io = new Server(server, {
     cors: {
-        origin: "https://video-room-front.vercel.app",
+        origin: ["https://video-room-front.vercel.app", "http://localhost:3000"],
         methods: ["GET", "POST"]
     }
 });
