@@ -28,14 +28,28 @@ io.on("connection", (socket) => {
         socket.to(data.room).emit("recieve_video", data.newLink)
     })
 
+    socket.on("leave-room", (data) => {
+        console.log("função leave acionada: ",data);
+        let clients = io.sockets.adapter.rooms.get(data);
+        socket.leave(data);
+        if (clients.size === 0) {
+            rooms = rooms.slice(rooms.indexOf(data) + 1)
+            socket.emit("request_rooms", rooms);
+        }
+    })
+
     socket.on("join_room", (data) => {
         socket.join(data)
-        console.log(`User with ID: ${socket.id} joinend room: ${data}`);
     })
 
     socket.on("create_room", (data) => {
-        rooms.push(data);
-        socket.emit("request_rooms", rooms) 
+        if (!rooms.includes(data)) {
+            rooms.push(data);
+            socket.emit("request_rooms", rooms) 
+        } else {
+            socket.emit("room_exists", "sala já existe")
+            console.log("sala já existe");
+        }
     })
 
     socket.on("send_message", (data) => {
