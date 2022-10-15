@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
         socket.leave(data);
         if (clients.size === 0) {
             rooms = rooms.slice(rooms.indexOf(data) + 1)
-            socket.emit("request_rooms", rooms);
+            socket.broadcast.emit("request_rooms", rooms);
         }
     })
 
